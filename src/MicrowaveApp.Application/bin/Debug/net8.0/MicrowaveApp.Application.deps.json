@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "MicrowaveApp.Application/1.0.0": {
+        "dependencies": {
+          "MicrowaveApp.Domain": "1.0.0",
+          "MicrowaveApp.Shared": "1.0.0"
+        },
+        "runtime": {
+          "MicrowaveApp.Application.dll": {}
+        }
+      },
+      "MicrowaveApp.Domain/1.0.0": {
+        "runtime": {
+          "MicrowaveApp.Domain.dll": {}
+        }
+      },
+      "MicrowaveApp.Shared/1.0.0": {
+        "runtime": {
+          "MicrowaveApp.Shared.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MicrowaveApp.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MicrowaveApp.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MicrowaveApp.Shared/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

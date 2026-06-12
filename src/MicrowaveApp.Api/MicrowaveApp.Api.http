@@ -1,0 +1,6 @@
+@MicrowaveApp.Api_HostAddress = http://localhost:5167
+
+GET {{MicrowaveApp.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

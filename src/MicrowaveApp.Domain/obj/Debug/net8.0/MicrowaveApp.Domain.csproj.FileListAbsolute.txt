@@ -1,0 +1,11 @@
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/bin/Debug/net8.0/MicrowaveApp.Domain.deps.json
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/bin/Debug/net8.0/MicrowaveApp.Domain.dll
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/bin/Debug/net8.0/MicrowaveApp.Domain.pdb
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.AssemblyInfoInputs.cache
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.AssemblyInfo.cs
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.csproj.CoreCompileInputs.cache
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.dll
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/refint/MicrowaveApp.Domain.dll
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/MicrowaveApp.Domain.pdb
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/obj/Debug/net8.0/ref/MicrowaveApp.Domain.dll

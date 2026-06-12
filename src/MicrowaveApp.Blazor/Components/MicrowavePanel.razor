@@ -1,0 +1,200 @@
+@inject IMicrowaveService MicrowaveService
+@implements IDisposable
+
+<section class="microwave-shell">
+    <div class="microwave-display">
+        <div class="display-row">
+            <span>Tempo</span>
+            <strong>@DisplayTime</strong>
+        </div>
+        <div class="display-row">
+            <span>Potência</span>
+            <strong>@DisplayPower</strong>
+        </div>
+        <div class="heating-output">@HeatingOutput</div>
+    </div>
+
+    <div class="microwave-controls">
+        <label class="field">
+            <span>Tempo em segundos</span>
+            <input @bind="timeInput" @onfocus="() => activeField = InputField.Time" inputmode="numeric" disabled="@IsInputLocked" />
+        </label>
+
+        <label class="field">
+            <span>Potência</span>
+            <input @bind="powerInput" @onfocus="() => activeField = InputField.Power" inputmode="numeric" disabled="@IsInputLocked" />
+        </label>
+
+        <NumericKeyboard OnKey="HandleKeyboardAsync" />
+
+        <div class="action-row">
+            <button type="button" class="primary-action" @onclick="StartAsync">Iniciar</button>
+            <button type="button" class="secondary-action" @onclick="PauseOrCancelAsync">Pausar/Cancelar</button>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <p class="error-message">@errorMessage</p>
+        }
+    </div>
+</section>
+
+@code {
+    private enum InputField
+    {
+        Time,
+        Power
+    }
+
+    private HeatingSessionResponse? currentSession;
+    private CancellationTokenSource? heatingLoopCancellation;
+    private string timeInput = string.Empty;
+    private string powerInput = string.Empty;
+    private string? errorMessage;
+    private InputField activeField = InputField.Time;
+
+    private bool IsInputLocked => currentSession?.Status is HeatingStatus.Heating or HeatingStatus.Paused;
+    private string DisplayTime => currentSession?.RemainingTimeDisplay ?? FormatInputTime();
+    private string DisplayPower => currentSession?.Power.ToString() ?? (string.IsNullOrWhiteSpace(powerInput) ? "10" : powerInput);
+    private string HeatingOutput => currentSession?.HeatingString ?? string.Empty;
+
+    private async Task StartAsync()
+    {
+        errorMessage = null;
+
+        try
+        {
+            currentSession = await MicrowaveService.StartAsync(new StartHeatingRequest(ParseNullable(timeInput), ParseNullable(powerInput)));
+            SyncInputsFromSession();
+            await StartHeatingLoopAsync();
+        }
+        catch (Exception exception)
+        {
+            errorMessage = exception.Message;
+        }
+    }
+
+    private async Task PauseOrCancelAsync()
+    {
+        errorMessage = null;
+
+        try
+        {
+            currentSession = await MicrowaveService.PauseOrCancelAsync();
+
+            if (currentSession is null)
+                ClearInputs();
+            else
+            {
+                SyncInputsFromSession();
+
+                if (currentSession.Status != HeatingStatus.Heating)
+                    heatingLoopCancellation?.Cancel();
+            }
+        }
+        catch (Exception exception)
+        {
+            errorMessage = exception.Message;
+        }
+    }
+
+    private async Task HandleKeyboardAsync(string key)
+    {
+        if (IsInputLocked)
+            return;
+
+        if (key == "clear")
+        {
+            ClearInputs();
+            return;
+        }
+
+        if (key == "backspace")
+        {
+            if (activeField == InputField.Time && timeInput.Length > 0)
+                timeInput = timeInput[..^1];
+
+            if (activeField == InputField.Power && powerInput.Length > 0)
+                powerInput = powerInput[..^1];
+
+            return;
+        }
+
+        if (activeField == InputField.Time)
+            timeInput += key;
+        else
+            powerInput += key;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task StartHeatingLoopAsync()
+    {
+        if (currentSession?.Status != HeatingStatus.Heating)
+            return;
+
+        heatingLoopCancellation?.Cancel();
+        heatingLoopCancellation = new CancellationTokenSource();
+        var token = heatingLoopCancellation.Token;
+
+        try
+        {
+            while (!token.IsCancellationRequested && currentSession?.Status == HeatingStatus.Heating)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1), token);
+                currentSession = await MicrowaveService.AdvanceAsync(cancellationToken: token);
+                SyncInputsFromSession();
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception exception)
+        {
+            errorMessage = exception.Message;
+        }
+    }
+
+    private void SyncInputsFromSession()
+    {
+        if (currentSession is null)
+            return;
+
+        timeInput = currentSession.TotalTimeInSeconds.ToString();
+        powerInput = currentSession.Power.ToString();
+    }
+
+    private void ClearInputs()
+    {
+        heatingLoopCancellation?.Cancel();
+        currentSession = null;
+        timeInput = string.Empty;
+        powerInput = string.Empty;
+        errorMessage = null;
+    }
+
+    private string FormatInputTime()
+    {
+        var time = ParseNullable(timeInput);
+
+        if (time is null)
+            return "0";
+
+        if (time < 60)
+            return time.Value.ToString();
+
+        return $"{time / 60}:{time % 60:00}";
+    }
+
+    private static int? ParseNullable(string value)
+    {
+        return int.TryParse(value, out var parsed) ? parsed : null;
+    }
+
+    public void Dispose()
+    {
+        heatingLoopCancellation?.Cancel();
+        heatingLoopCancellation?.Dispose();
+    }
+}

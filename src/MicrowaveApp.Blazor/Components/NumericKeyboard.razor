@@ -1,0 +1,31 @@
+<div class="numeric-keyboard">
+    @foreach (var number in Numbers)
+    {
+        <button type="button" class="key-button" @onclick="() => OnKey.InvokeAsync(number.ToString())">@number</button>
+    }
+    <button type="button" class="key-button key-muted" @onclick="ClearAsync">C</button>
+    <button type="button" class="key-button" @onclick="ZeroAsync">0</button>
+    <button type="button" class="key-button key-muted" @onclick="BackspaceAsync">⌫</button>
+</div>
+
+@code {
+    private static readonly int[] Numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    [Parameter]
+    public EventCallback<string> OnKey { get; set; }
+
+    private Task ClearAsync()
+    {
+        return OnKey.InvokeAsync("clear");
+    }
+
+    private Task BackspaceAsync()
+    {
+        return OnKey.InvokeAsync("backspace");
+    }
+
+    private Task ZeroAsync()
+    {
+        return OnKey.InvokeAsync("0");
+    }
+}
