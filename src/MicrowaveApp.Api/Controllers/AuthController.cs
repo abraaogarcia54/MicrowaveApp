@@ -6,5 +6,4 @@ namespace MicrowaveApp.Api.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    
 }
