@@ -23,7 +23,12 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://+:8080"
-      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MicrowaveApp;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      ConnectionStrings__DefaultConnectionEncrypted: "pnqyUCjlQnPTX3AgsPFHqF+YB+Rqxej/b8SP0TBrz4Oo9M2/aJ5WVzaCVkaoIacI/iMITchB7yo6vk9Cdcs90uVQZ8Ee2QMdyUnIaKOvZb9wQH3+vxop9R0hTw3Jaj9Qq+9Hh5PDb2lQ15qMQSAXP2wTe40HiAOYrCBFDo0LZmE="
+      Security__ConnectionStringKey: "MicrowaveApp-Level4-Development-Key-2026"
+      Jwt__Issuer: "MicrowaveApp.Api"
+      Jwt__Audience: "MicrowaveApp.Blazor"
+      Jwt__Key: "MicrowaveApp-Level4-Jwt-Key-Change-In-Production-2026"
+      Jwt__ExpirationMinutes: "120"
     ports:
       - "5167:8080"
     depends_on:

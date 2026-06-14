@@ -1,11 +1,11 @@
 <div class="numeric-keyboard">
     @foreach (var number in Numbers)
     {
-        <button type="button" class="key-button" @onclick="() => OnKey.InvokeAsync(number.ToString())">@number</button>
+        <button type="button" class="key-button" @onclick="() => OnKey.InvokeAsync(number.ToString())" disabled="@Disabled">@number</button>
     }
-    <button type="button" class="key-button key-muted" @onclick="ClearAsync">C</button>
-    <button type="button" class="key-button" @onclick="ZeroAsync">0</button>
-    <button type="button" class="key-button key-muted" @onclick="BackspaceAsync">⌫</button>
+    <button type="button" class="key-button key-muted" @onclick="ClearAsync" disabled="@Disabled">C</button>
+    <button type="button" class="key-button" @onclick="ZeroAsync" disabled="@Disabled">0</button>
+    <button type="button" class="key-button key-muted" @onclick="BackspaceAsync" disabled="@Disabled">⌫</button>
 </div>
 
 @code {
@@ -13,6 +13,9 @@
 
     [Parameter]
     public EventCallback<string> OnKey { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
 
     private Task ClearAsync()
     {

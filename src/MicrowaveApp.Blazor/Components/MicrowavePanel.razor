@@ -1,5 +1,6 @@
 @inject IMicrowaveService MicrowaveService
 @inject IHeatingProgramService HeatingProgramService
+@inject IAuthState AuthState
 @implements IDisposable
 
 <section class="microwave-shell">
@@ -23,29 +24,49 @@
     </div>
 
     <div class="microwave-controls">
-        <HeatingProgramList
-            Programs="programs"
-            SelectedProgram="selectedProgram"
-            OnSelected="SelectProgramAsync"
-            OnCleared="ClearProgramSelectionAsync" />
+        <div class="program-tabs">
+            <div class="program-tab-switcher">
+                <button class="@TabClass("preset")" @onclick="@(() => activeTab = "preset")">Predefinidos</button>
+                <button class="@TabClass("custom")" @onclick="@(() => activeTab = "custom")">Customizados</button>
+            </div>
 
-        <HeatingProgramForm OnCreated="HandleProgramCreatedAsync" />
+            @if (activeTab == "preset")
+            {
+                <HeatingProgramList
+                    Programs="PresetPrograms"
+                    SelectedProgram="selectedProgram"
+                    Disabled="@(!CanUseApi)"
+                    OnSelected="SelectProgramAsync"
+                    OnCleared="ClearProgramSelectionAsync" />
+            }
+            else
+            {
+                <HeatingProgramList
+                    Programs="CustomPrograms"
+                    SelectedProgram="selectedProgram"
+                    Disabled="@(!CanUseApi)"
+                    OnSelected="SelectProgramAsync"
+                    OnCleared="ClearProgramSelectionAsync" />
+
+                <HeatingProgramForm OnCreated="HandleProgramCreatedAsync" Disabled="@(!CanUseApi)" />
+            }
+        </div>
 
         <label class="field">
             <span>Tempo em segundos</span>
-            <input @bind="timeInput" @onfocus="() => activeField = InputField.Time" inputmode="numeric" disabled="@IsInputLocked" />
+            <input @bind="timeInput" @onfocus="() => activeField = InputField.Time" inputmode="numeric" disabled="@(!CanUseApi || IsInputLocked)" />
         </label>
 
         <label class="field">
             <span>Potência</span>
-            <input @bind="powerInput" @onfocus="() => activeField = InputField.Power" inputmode="numeric" disabled="@IsInputLocked" />
+            <input @bind="powerInput" @onfocus="() => activeField = InputField.Power" inputmode="numeric" disabled="@(!CanUseApi || IsInputLocked)" />
         </label>
 
-        <NumericKeyboard OnKey="HandleKeyboardAsync" />
+        <NumericKeyboard OnKey="HandleKeyboardAsync" Disabled="@(!CanUseApi || IsInputLocked)" />
 
         <div class="action-row">
-            <button type="button" class="primary-action" @onclick="StartAsync">Iniciar</button>
-            <button type="button" class="secondary-action" @onclick="PauseOrCancelAsync">Pausar/Cancelar</button>
+            <button type="button" class="primary-action" @onclick="StartAsync" disabled="@(!CanUseApi)">Iniciar</button>
+            <button type="button" class="secondary-action" @onclick="PauseOrCancelAsync" disabled="@(!CanUseApi)">Pausar/Cancelar</button>
         </div>
 
         @if (!string.IsNullOrWhiteSpace(errorMessage))
@@ -65,6 +86,10 @@
     private HeatingSessionResponse? currentSession;
     private IReadOnlyCollection<HeatingProgramResponse> programs = [];
     private HeatingProgramResponse? selectedProgram;
+    private string activeTab = "preset";
+
+    private IReadOnlyCollection<HeatingProgramResponse> PresetPrograms => programs.Where(p => p.IsPresent).ToList();
+    private IReadOnlyCollection<HeatingProgramResponse> CustomPrograms => programs.Where(p => !p.IsPresent).ToList();
     private CancellationTokenSource? heatingLoopCancellation;
     private string timeInput = string.Empty;
     private string powerInput = string.Empty;
@@ -72,17 +97,28 @@
     private InputField activeField = InputField.Time;
 
     private bool IsInputLocked => selectedProgram is not null || currentSession?.Status is HeatingStatus.Heating or HeatingStatus.Paused;
+    private bool CanUseApi => AuthState.IsAuthenticated;
     private string DisplayTime => currentSession?.RemainingTimeDisplay ?? FormatInputTime();
     private string DisplayPower => currentSession?.Power.ToString() ?? (string.IsNullOrWhiteSpace(powerInput) ? "10" : powerInput);
     private string HeatingOutput => currentSession?.HeatingString ?? string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        programs = await HeatingProgramService.GetAllAsync();
+        AuthState.Changed += HandleAuthStateChanged;
+        await AuthState.InitializeAsync();
+
+        if (CanUseApi)
+            await LoadProgramsAsync();
     }
 
     private async Task StartAsync()
     {
+        if (!CanUseApi)
+        {
+            errorMessage = "Autentique-se para executar esta função.";
+            return;
+        }
+
         errorMessage = null;
 
         try
@@ -103,6 +139,12 @@
 
     private async Task PauseOrCancelAsync()
     {
+        if (!CanUseApi)
+        {
+            errorMessage = "Autentique-se para executar esta função.";
+            return;
+        }
+
         errorMessage = null;
 
         try
@@ -127,7 +169,7 @@
 
     private async Task HandleKeyboardAsync(string key)
     {
-        if (IsInputLocked)
+        if (!CanUseApi || IsInputLocked)
             return;
 
         if (key == "clear")
@@ -244,13 +286,48 @@
         return $"{time / 60}:{time % 60:00}";
     }
 
+    private string TabClass(string tab) =>
+        activeTab == tab ? "program-tab program-tab--active" : "program-tab";
+
     private static int? ParseNullable(string value)
     {
         return int.TryParse(value, out var parsed) ? parsed : null;
     }
 
+    private async Task LoadProgramsAsync()
+    {
+        try
+        {
+            programs = await HeatingProgramService.GetAllAsync();
+            errorMessage = null;
+        }
+        catch (Exception exception)
+        {
+            programs = [];
+            errorMessage = exception.Message;
+        }
+    }
+
+    private void HandleAuthStateChanged()
+    {
+        _ = InvokeAsync(HandleAuthStateChangedAsync);
+    }
+
+    private async Task HandleAuthStateChangedAsync()
+    {
+        ClearInputs();
+
+        if (CanUseApi)
+            await LoadProgramsAsync();
+        else
+            programs = [];
+
+        await InvokeAsync(StateHasChanged);
+    }
+
     public void Dispose()
     {
+        AuthState.Changed -= HandleAuthStateChanged;
         heatingLoopCancellation?.Cancel();
         heatingLoopCancellation?.Dispose();
     }

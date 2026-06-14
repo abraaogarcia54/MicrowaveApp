@@ -6,36 +6,36 @@
     <div class="program-form-grid">
         <label class="field">
             <span>Nome</span>
-            <input @bind="name" />
+            <input @bind="name" disabled="@Disabled" />
         </label>
 
         <label class="field">
             <span>Alimento</span>
-            <input @bind="food" />
+            <input @bind="food" disabled="@Disabled" />
         </label>
 
         <label class="field">
             <span>Tempo em segundos</span>
-            <input @bind="timeInput" inputmode="numeric" />
+            <input @bind="timeInput" inputmode="numeric" disabled="@Disabled" />
         </label>
 
         <label class="field">
             <span>Potência</span>
-            <input @bind="powerInput" inputmode="numeric" />
+            <input @bind="powerInput" inputmode="numeric" disabled="@Disabled" />
         </label>
 
         <label class="field">
             <span>Caractere</span>
-            <input @bind="heatingCharInput" maxlength="1" />
+            <input @bind="heatingCharInput" maxlength="1" disabled="@Disabled" />
         </label>
 
         <label class="field instructions-field">
             <span>Instruções</span>
-            <textarea @bind="instructions"></textarea>
+            <textarea @bind="instructions" disabled="@Disabled"></textarea>
         </label>
     </div>
 
-    <button type="button" class="primary-action" @onclick="CreateAsync" disabled="@isSubmitting">Cadastrar</button>
+    <button type="button" class="primary-action" @onclick="CreateAsync" disabled="@(Disabled || isSubmitting)">Cadastrar</button>
 
     @if (!string.IsNullOrWhiteSpace(message))
     {
@@ -46,6 +46,9 @@
 @code {
     [Parameter]
     public EventCallback<HeatingProgramResponse> OnCreated { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
 
     private string name = string.Empty;
     private string food = string.Empty;
@@ -59,6 +62,9 @@
 
     private async Task CreateAsync()
     {
+        if (Disabled)
+            return;
+
         message = null;
         messageClass = "error-message";
 

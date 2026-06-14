@@ -11,11 +11,12 @@ public class AuthServiceTests
     public async Task RegisterAsync_ShouldHashPasswordAndPersistUser()
     {
         var users = new FakeUserRepository();
-        var service = new AuthService(users, new FakePasswordHasher());
+        var service = new AuthService(users, new FakePasswordHasher(), new FakeJwtTokenService());
 
         var response = await service.RegisterAsync(new LoginRequest("Admin", "123456"));
 
         response.Username.Should().Be("admin");
+        response.Token.Should().Be("token:admin");
         users.Users.Single().PasswordHash.Should().Be("hashed:123456");
     }
 
@@ -45,6 +46,14 @@ public class AuthServiceTests
         public bool Verify(string password, string passwordHash)
         {
             return passwordHash == Hash(password);
+        }
+    }
+
+    private sealed class FakeJwtTokenService : IJwtTokenService
+    {
+        public string GenerateToken(int userId, string username)
+        {
+            return $"token:{username}";
         }
     }
 }

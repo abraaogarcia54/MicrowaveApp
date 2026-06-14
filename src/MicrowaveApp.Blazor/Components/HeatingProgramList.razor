@@ -1,11 +1,10 @@
 <section class="program-list">
-    <div class="program-list-header">
-        <h2>Programas de aquecimento</h2>
-        @if (SelectedProgram is not null)
-        {
-            <button type="button" class="clear-program-button" @onclick="ClearSelectionAsync">Limpar seleção</button>
-        }
-    </div>
+    @if (SelectedProgram is not null)
+    {
+        <div class="program-list-header">
+            <button type="button" class="clear-program-button" @onclick="ClearSelectionAsync" disabled="@Disabled">Limpar seleção</button>
+        </div>
+    }
 
     <div class="program-grid">
         @foreach (var program in Programs)
@@ -13,7 +12,8 @@
             <button
                 type="button"
                 class="@GetProgramButtonClass(program)"
-                @onclick="() => SelectProgramAsync(program)">
+                @onclick="() => SelectProgramAsync(program)"
+                disabled="@Disabled">
                 <strong>@program.Name</strong>
                 <span>@program.Food</span>
                 <small>@FormatTime(program.TimeInSeconds) • Potência @program.Power • @program.HeatingChar</small>
@@ -40,13 +40,22 @@
     [Parameter]
     public EventCallback OnCleared { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; }
+
     private Task SelectProgramAsync(HeatingProgramResponse program)
     {
+        if (Disabled)
+            return Task.CompletedTask;
+
         return OnSelected.InvokeAsync(program);
     }
 
     private Task ClearSelectionAsync()
     {
+        if (Disabled)
+            return Task.CompletedTask;
+
         return OnCleared.InvokeAsync();
     }
 

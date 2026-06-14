@@ -1,12 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MicrowaveApp.Application.DTOs;
 using MicrowaveApp.Application.Interfaces;
-using MicrowaveApp.Domain.Exceptions;
 
 namespace MicrowaveApp.Api.Controllers;
 
 [ApiController]
 [Route("api/heating-programs")]
+[Authorize]
 public sealed class HeatingProgramsController : ControllerBase
 {
     private readonly IHeatingProgramService _heatingProgramService;
@@ -28,18 +29,7 @@ public sealed class HeatingProgramsController : ControllerBase
         CreateHeatingProgramRequest request,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var program = await _heatingProgramService.CreateAsync(request, cancellationToken);
-            return Created($"/api/heating-programs/{program.Id}", program);
-        }
-        catch (BusinessException exception)
-        {
-            return BadRequest(new
-            {
-                exception.ErrorCode,
-                exception.Message
-            });
-        }
+        var program = await _heatingProgramService.CreateAsync(request, cancellationToken);
+        return Created($"/api/heating-programs/{program.Id}", program);
     }
 }

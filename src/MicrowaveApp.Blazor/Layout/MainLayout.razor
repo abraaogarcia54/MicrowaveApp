@@ -1,16 +1,57 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+@inherits LayoutComponentBase
+@inject IAuthState AuthState
+@inject NavigationManager Nav
+@implements IDisposable
+
+@if (!AuthState.IsAuthenticated)
+{
+    @Body
+}
+else
+{
+    <div class="page">
+        <main>
+            <div class="auth-panel">
+                <div>
+                    <span class="auth-label">Usuário</span>
+                    <strong class="auth-status authenticated">@AuthState.Username &mdash; Autenticado</strong>
+                </div>
+                <div class="auth-actions">
+                    <button type="button" class="secondary-action auth-logout" @onclick="LogoutAsync">Sair</button>
+                </div>
+            </div>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
     </div>
+}
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+@code {
+    protected override void OnInitialized()
+    {
+        AuthState.Changed += OnAuthChanged;
+    }
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    protected override void OnParametersSet()
+    {
+        Guard();
+    }
+
+    private void Guard()
+    {
+        var path = Nav.ToBaseRelativePath(Nav.Uri);
+        if (!AuthState.IsAuthenticated && path != "login")
+            Nav.NavigateTo("/login", replace: true);
+    }
+
+    private async Task LogoutAsync()
+    {
+        await AuthState.SignOutAsync();
+        Nav.NavigateTo("/login", replace: true);
+    }
+
+    private void OnAuthChanged() => InvokeAsync(() => { Guard(); StateHasChanged(); });
+
+    public void Dispose() => AuthState.Changed -= OnAuthChanged;
+}

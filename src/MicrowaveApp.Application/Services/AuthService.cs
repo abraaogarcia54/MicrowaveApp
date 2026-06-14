@@ -9,11 +9,16 @@ public sealed class AuthService : IAuthService
 {
     private readonly IUserRepository _users;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IJwtTokenService _jwtTokenService;
 
-    public AuthService(IUserRepository users, IPasswordHasher passwordHasher)
+    public AuthService(
+        IUserRepository users,
+        IPasswordHasher passwordHasher,
+        IJwtTokenService jwtTokenService)
     {
         _users = users;
         _passwordHasher = passwordHasher;
+        _jwtTokenService = jwtTokenService;
     }
 
     public async Task<LoginResponse> RegisterAsync(LoginRequest request, CancellationToken cancellationToken = default)
@@ -27,7 +32,7 @@ public sealed class AuthService : IAuthService
         var user = new User(username, _passwordHasher.Hash(request.Password));
         await _users.AddAsync(user, cancellationToken);
 
-        return new LoginResponse(user.Id, user.Username);
+        return CreateLoginResponse(user);
     }
 
     public async Task<LoginResponse> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
@@ -38,7 +43,13 @@ public sealed class AuthService : IAuthService
         if (user is null || !_passwordHasher.Verify(request.Password, user.PasswordHash))
             throw new BusinessException("Usuário ou senha inválidos.", "INVALID_CREDENTIALS");
 
-        return new LoginResponse(user.Id, user.Username);
+        return CreateLoginResponse(user);
+    }
+
+    private LoginResponse CreateLoginResponse(User user)
+    {
+        var token = _jwtTokenService.GenerateToken(user.Id, user.Username);
+        return new LoginResponse(user.Id, user.Username, token);
     }
 
     private static string NormalizeUsername(string username)

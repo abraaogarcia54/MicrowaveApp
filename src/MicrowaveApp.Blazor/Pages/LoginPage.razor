@@ -1,0 +1,119 @@
+@page "/login"
+@inject IAuthApiService AuthApi
+@inject IAuthState AuthState
+@inject NavigationManager Nav
+
+<PageTitle>Entrar — Micro-ondas</PageTitle>
+
+<div class="login-bg">
+    <div class="login-card">
+        <div class="login-logo">
+            <span style="font-size:3rem">🔥</span>
+            <h1>Micro-ondas Digital</h1>
+            <p>@(_mode == "login" ? "Faça login para continuar" : "Crie sua conta")</p>
+        </div>
+
+        <div class="mode-switcher">
+            <button class="@ModeClass("login")" @onclick="@(() => SetMode("login"))">Entrar</button>
+            <button class="@ModeClass("register")" @onclick="@(() => SetMode("register"))">Cadastrar</button>
+        </div>
+
+        <div class="form-group">
+            <label>USUÁRIO</label>
+            <input type="text"
+                   @bind="_username"
+                   @bind:event="oninput"
+                   @onkeydown="OnKeyDownAsync"
+                   placeholder="seu usuário"
+                   disabled="@(_loading || _success)" />
+        </div>
+
+        <div class="form-group">
+            <label>SENHA</label>
+            <input type="password"
+                   @bind="_password"
+                   @bind:event="oninput"
+                   @onkeydown="OnKeyDownAsync"
+                   placeholder="••••••••"
+                   disabled="@(_loading || _success)" />
+        </div>
+
+        @if (_error is not null)
+        {
+            <div class="alert alert--error">@_error</div>
+        }
+
+        @if (_success)
+        {
+            <div class="alert alert--success">✓ Autenticado com sucesso!</div>
+        }
+
+        <button class="login-btn-primary" @onclick="SubmitAsync" disabled="@(_loading || _success)">
+            @(_loading ? "Carregando..." : _mode == "login" ? "Entrar" : "Criar conta")
+        </button>
+    </div>
+</div>
+
+@code {
+    private string _mode = "login";
+    private string _username = "";
+    private string _password = "";
+    private string? _error;
+    private bool _loading;
+    private bool _success;
+
+    protected override void OnInitialized()
+    {
+        if (AuthState.IsAuthenticated)
+            Nav.NavigateTo("/", replace: true);
+    }
+
+    private async Task OnKeyDownAsync(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            await SubmitAsync();
+    }
+
+    private async Task SubmitAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_password))
+        {
+            _error = "Informe usuário e senha.";
+            return;
+        }
+
+        _error = null;
+        _loading = true;
+
+        try
+        {
+            var request = new LoginRequest(_username, _password);
+            if (_mode == "login")
+                await AuthApi.LoginAsync(request);
+            else
+                await AuthApi.RegisterAsync(request);
+
+            _success = true;
+            await Task.Delay(700);
+            Nav.NavigateTo("/", replace: true);
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private void SetMode(string mode)
+    {
+        _mode = mode;
+        _error = null;
+        _success = false;
+    }
+
+    private string ModeClass(string m) =>
+        _mode == m ? "mode-btn mode-btn--active" : "mode-btn";
+}

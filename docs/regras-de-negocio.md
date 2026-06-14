@@ -25,3 +25,13 @@
 - O caractere de aquecimento não pode repetir com nenhum programa existente.
 - Programas customizados são persistidos em SQL Server.
 - Programas customizados são exibidos junto aos pré-definidos e aparecem em itálico na interface.
+
+## Nível 4
+
+- As operações de aquecimento e cadastro/listagem de programas são expostas pela Web API.
+- Endpoints de negócio exigem Bearer Token.
+- O Blazor exibe o status de autenticação e bloqueia os comandos quando não há token.
+- Usuários são autenticados por usuário e senha; a senha é persistida com hash SHA-256.
+- A connection string usada pela API fica criptografada na configuração e é descriptografada em runtime.
+- Erros de regra de negócio retornam resposta JSON padronizada usando `BusinessException`.
+- Exceptions inesperadas retornam resposta padronizada e são registradas em arquivo de log com trace id, rota, método, exception, inner exception e stacktrace.
