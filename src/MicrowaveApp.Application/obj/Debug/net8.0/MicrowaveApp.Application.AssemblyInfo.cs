@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicrowaveApp.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efb02f043aaffac7e30cbd7f4b3f33fcd05cad3d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f72d45927654786db8f36f4c4403653c8d57aca6")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicrowaveApp.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicrowaveApp.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "MicrowaveApp.Blazor",
   "resources": {
-    "hash": "sha256-baSQUR0MEjCz9RKei83Mbgjrc1VFMehHvKM99x9/wHM=",
+    "hash": "sha256-RRZlGMLAnsRWdMLKcMKemYcFSUIbROFhh5bIsHLy8fk=",
     "jsModuleNative": {
       "dotnet.native.8.0.22.9bwow7mtby.js": "sha256-vtotCeXt2UD6oc459laJT32vBgigZ+eLoUmdeFkvYDk="
     },
@@ -208,20 +208,23 @@
       "mscorlib.wasm": "sha256-K9gNrsN9UmPqLs6J/FrkiKpmkVGnHjjqUsc7YGvesCY=",
       "netstandard.wasm": "sha256-4emjlXLM9qW3t2tlII20SDylBgG4ueI0wy9nh5FMd8g=",
       "System.Private.CoreLib.wasm": "sha256-2DN4v7I/tabltDEPdIO8sDBB0tY8zOm+0CvHbMssXW4=",
-      "MicrowaveApp.Application.wasm": "sha256-8oSJW229M5nCCCsn6zWLMiJwoBT0ogIAYS3cD/tRMxE=",
-      "MicrowaveApp.Domain.wasm": "sha256-lD+bNU4DnB1IweCcZqmS4ytIwzjQeaNlAbB/jbB/euE=",
-      "MicrowaveApp.Shared.wasm": "sha256-+AvfGdJUQ7iYvJKKsYlaz683LoTIbuzYFXDp4NGGOj4=",
-      "MicrowaveApp.Blazor.wasm": "sha256-jmhJZ8jizdu6awdSsz88pu47oKPUxgrTpL2XMsHeAFU="
+      "MicrowaveApp.Application.wasm": "sha256-IS//J5d+7u3MBMGCRYUWrI0FhfPHPGnpzkUWmI5sPx0=",
+      "MicrowaveApp.Domain.wasm": "sha256-u+E6Rl4VshZB2ws8FlM3NSPuDTZuOn4xHo/EPu4iKtM=",
+      "MicrowaveApp.Shared.wasm": "sha256-GRs8CodQi19u0eH3iw950LBZDBoYf45cCiNeYBeuDjE=",
+      "MicrowaveApp.Blazor.wasm": "sha256-jXivQIppjwKoN+kkaZ1DngHFBK6+Qr39m5qgwzgO4oo="
     },
     "pdb": {
-      "MicrowaveApp.Application.pdb": "sha256-sgUFakTM+n0YS8Dwqd56H3g94dPng8mW+Dg+M6/8qVQ=",
-      "MicrowaveApp.Domain.pdb": "sha256-M7aUwWU9nGcCscXxTXHGxCrIgrs9ekW5Y+gMLCBzBOc=",
-      "MicrowaveApp.Shared.pdb": "sha256-O99T/izalU6WPXSB4yYtDG0Qq7MmLkuES6yxd7c4nNY=",
-      "MicrowaveApp.Blazor.pdb": "sha256-BU4xExj7Z91CHBM96gLlmFI5WE/apVUvYkmy/gsUPGU="
+      "MicrowaveApp.Application.pdb": "sha256-RcGGt4wOl6ftbjieIAme4+hDFFRZNzpbZPr7d2P8fNw=",
+      "MicrowaveApp.Domain.pdb": "sha256-F2kwoNYwzopmega6iNWvYFlbXuygJPvZXSp8cqq1z1c=",
+      "MicrowaveApp.Shared.pdb": "sha256-ARMOI5YhYLlysgRL3cRISCOupLFh54c4S1GW1D+lPec=",
+      "MicrowaveApp.Blazor.pdb": "sha256-Aj/4yr/PL/j7vpZiXp6xZsPRLTHa/wiDMZ+h9paU8/U="
     }
   },
   "cacheBootResources": true,
   "debugLevel": -1,
+  "appsettings": [
+    "../appsettings.json"
+  ],
   "globalizationMode": "sharded",
   "extensions": {
     "blazor": {}

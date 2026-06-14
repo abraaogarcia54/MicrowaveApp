@@ -1,30 +1,41 @@
 using MicrowaveApp.Application.Interfaces;
 using MicrowaveApp.Domain.Entities;
+using MicrowaveApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicrowaveApp.Infrastructure.Repositories;
 
 public sealed class HeatingProgramRepository : IHeatingProgramRepository
 {
-    private readonly List<HeatingProgram> _programs = [];
+    private readonly MicrowaveDbContext _dbContext;
 
-    public Task<IReadOnlyCollection<HeatingProgram>> GetAllAsync(CancellationToken cancellationToken = default)
+    public HeatingProgramRepository(MicrowaveDbContext dbContext)
     {
-        return Task.FromResult<IReadOnlyCollection<HeatingProgram>>(_programs);
+        _dbContext = dbContext;
+    }
+
+    public async Task<IReadOnlyCollection<HeatingProgram>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.HeatingPrograms
+            .OrderByDescending(program => program.IsPresent)
+            .ThenBy(program => program.Name)
+            .ToArrayAsync(cancellationToken);
     }
 
     public Task<HeatingProgram?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(_programs.FirstOrDefault(program => program.Id == id));
+        return _dbContext.HeatingPrograms
+            .FirstOrDefaultAsync(program => program.Id == id, cancellationToken);
     }
 
-    public Task AddAsync(HeatingProgram program, CancellationToken cancellationToken = default)
+    public async Task AddAsync(HeatingProgram program, CancellationToken cancellationToken = default)
     {
-        _programs.Add(program);
-        return Task.CompletedTask;
+        await _dbContext.HeatingPrograms.AddAsync(program, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task UpdateAsync(HeatingProgram program, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(HeatingProgram program, CancellationToken cancellationToken = default)
     {
-        return Task.CompletedTask;
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -16,6 +16,9 @@ public class HeatingProgram
     public bool IsPreset => IsPresent;
     public DateTime CreatedAt { get; private set; }
 
+    private HeatingProgram()
+    {
+    }
     
     public HeatingProgram(
         string name,

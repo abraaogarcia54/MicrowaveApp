@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QHiJR9EDHYLPcH39OWsqvBDWFMmh3OYFvjX0AWHgjSI=",
+  "Hash": "W2scBOlJUo87/PaAkfv6SuKA8EEgb80AcBe+mbxO5yA=",
   "Source": "MicrowaveApp.Blazor",
   "BasePath": "/",
   "Mode": "Root",
@@ -8033,6 +8033,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/obj/Debug/net8.0/scopedcss/projectbundle/MicrowaveApp.Blazor.bundle.scp.css"
+    },
+    {
+      "Identity": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/wwwroot/appsettings.json",
+      "SourceId": "MicrowaveApp.Blazor",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "appsettings.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "settings",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/appsettings.json"
     },
     {
       "Identity": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/wwwroot/css/app.css",

@@ -217,11 +217,52 @@ code {
     color: #52606d;
 }
 
+.custom-program {
+    font-style: italic;
+}
+
 .program-instructions {
     margin: 0;
     color: #52606d;
     font-size: .9rem;
     line-height: 1.35;
+}
+
+.program-form {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    border-top: 1px solid #d7dee8;
+    padding-top: 1rem;
+}
+
+.program-form h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.program-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+}
+
+.instructions-field {
+    grid-column: 1 / -1;
+}
+
+.instructions-field textarea {
+    min-height: 72px;
+    resize: vertical;
+    border: 1px solid #b9c3cf;
+    border-radius: 6px;
+    padding: .6rem .75rem;
+}
+
+.success-message {
+    color: #1f7a4d;
+    font-weight: 600;
+    margin: 0;
 }
 
 .field {
@@ -305,5 +346,9 @@ code {
 
     .microwave-display {
         min-height: 260px;
+    }
+
+    .program-form-grid {
+        grid-template-columns: 1fr;
     }
 }

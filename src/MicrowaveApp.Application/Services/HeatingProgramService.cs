@@ -24,6 +24,7 @@ public sealed class HeatingProgramService : IHeatingProgramService
     public async Task<HeatingProgramResponse> CreateAsync(CreateHeatingProgramRequest request, CancellationToken cancellationToken = default)
     {
         HeatingProgramValidator.Validate(request);
+        await EnsureHeatingCharacterIsUniqueAsync(request.HeatingChar, cancellationToken: cancellationToken);
 
         var program = new HeatingProgram(
             request.Name,
@@ -47,6 +48,8 @@ public sealed class HeatingProgramService : IHeatingProgramService
         if (program is null)
             throw new BusinessException("Programa de aquecimento não encontrado.", "HEATING_PROGRAM_NOT_FOUND");
 
+        await EnsureHeatingCharacterIsUniqueAsync(request.HeatingChar, id, cancellationToken);
+
         program.Update(
             request.Name,
             request.Food,
@@ -58,6 +61,20 @@ public sealed class HeatingProgramService : IHeatingProgramService
         await _programs.UpdateAsync(program, cancellationToken);
 
         return ToResponse(program);
+    }
+
+    private async Task EnsureHeatingCharacterIsUniqueAsync(
+        char heatingChar,
+        int? currentProgramId = null,
+        CancellationToken cancellationToken = default)
+    {
+        var programs = await _programs.GetAllAsync(cancellationToken);
+        var duplicated = programs.Any(program =>
+            program.HeatingChar == heatingChar &&
+            (!currentProgramId.HasValue || program.Id != currentProgramId.Value));
+
+        if (duplicated)
+            throw new BusinessException("Caractere de aquecimento já está em uso.", "HEATING_CHAR_ALREADY_IN_USE");
     }
 
     private static HeatingProgramResponse ToResponse(HeatingProgram program)

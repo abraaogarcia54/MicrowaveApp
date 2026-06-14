@@ -29,6 +29,8 @@
             OnSelected="SelectProgramAsync"
             OnCleared="ClearProgramSelectionAsync" />
 
+        <HeatingProgramForm OnCreated="HandleProgramCreatedAsync" />
+
         <label class="field">
             <span>Tempo em segundos</span>
             <input @bind="timeInput" @onfocus="() => activeField = InputField.Time" inputmode="numeric" disabled="@IsInputLocked" />
@@ -171,6 +173,15 @@
         ClearInputs();
 
         return Task.CompletedTask;
+    }
+
+    private async Task HandleProgramCreatedAsync(HeatingProgramResponse program)
+    {
+        programs = await HeatingProgramService.GetAllAsync();
+        selectedProgram = program;
+        currentSession = null;
+        timeInput = program.TimeInSeconds.ToString();
+        powerInput = program.Power.ToString();
     }
 
     private async Task StartHeatingLoopAsync()

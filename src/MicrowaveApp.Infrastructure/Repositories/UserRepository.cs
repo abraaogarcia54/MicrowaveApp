@@ -1,21 +1,30 @@
 using MicrowaveApp.Application.Interfaces;
 using MicrowaveApp.Domain.Entities;
+using MicrowaveApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicrowaveApp.Infrastructure.Repositories;
 
 public sealed class UserRepository : IUserRepository
 {
-    private readonly List<User> _users = [];
+    private readonly MicrowaveDbContext _dbContext;
+
+    public UserRepository(MicrowaveDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
 
     public Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
         var normalizedUsername = username.Trim().ToLowerInvariant();
-        return Task.FromResult(_users.FirstOrDefault(user => user.Username == normalizedUsername));
+
+        return _dbContext.Users
+            .FirstOrDefaultAsync(user => user.Username == normalizedUsername, cancellationToken);
     }
 
-    public Task AddAsync(User user, CancellationToken cancellationToken = default)
+    public async Task AddAsync(User user, CancellationToken cancellationToken = default)
     {
-        _users.Add(user);
-        return Task.CompletedTask;
+        await _dbContext.Users.AddAsync(user, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -1,6 +1,6 @@
 <section class="program-list">
     <div class="program-list-header">
-        <h2>Programas pré-definidos</h2>
+        <h2>Programas de aquecimento</h2>
         @if (SelectedProgram is not null)
         {
             <button type="button" class="clear-program-button" @onclick="ClearSelectionAsync">Limpar seleção</button>
@@ -53,8 +53,13 @@
     private string GetProgramButtonClass(HeatingProgramResponse program)
     {
         return SelectedProgram?.Id == program.Id
-            ? "program-button selected"
-            : "program-button";
+            ? GetProgramTypeClass(program, "program-button selected")
+            : GetProgramTypeClass(program, "program-button");
+    }
+
+    private static string GetProgramTypeClass(HeatingProgramResponse program, string baseClass)
+    {
+        return program.IsPresent ? baseClass : $"{baseClass} custom-program";
     }
 
     private static string FormatTime(int totalSeconds)

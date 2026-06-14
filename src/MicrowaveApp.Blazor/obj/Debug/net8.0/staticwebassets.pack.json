@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/MicrowaveApp.Blazor.styles.css"
     },
     {
+      "Id": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/wwwroot/appsettings.json",
+      "PackagePath": "staticwebassets/appsettings.json"
+    },
+    {
       "Id": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/wwwroot/css/app.css",
       "PackagePath": "staticwebassets/css/app.css"
     },

@@ -1,0 +1,109 @@
+@inject IHeatingProgramService HeatingProgramService
+
+<section class="program-form">
+    <h2>Novo programa customizado</h2>
+
+    <div class="program-form-grid">
+        <label class="field">
+            <span>Nome</span>
+            <input @bind="name" />
+        </label>
+
+        <label class="field">
+            <span>Alimento</span>
+            <input @bind="food" />
+        </label>
+
+        <label class="field">
+            <span>Tempo em segundos</span>
+            <input @bind="timeInput" inputmode="numeric" />
+        </label>
+
+        <label class="field">
+            <span>Potência</span>
+            <input @bind="powerInput" inputmode="numeric" />
+        </label>
+
+        <label class="field">
+            <span>Caractere</span>
+            <input @bind="heatingCharInput" maxlength="1" />
+        </label>
+
+        <label class="field instructions-field">
+            <span>Instruções</span>
+            <textarea @bind="instructions"></textarea>
+        </label>
+    </div>
+
+    <button type="button" class="primary-action" @onclick="CreateAsync" disabled="@isSubmitting">Cadastrar</button>
+
+    @if (!string.IsNullOrWhiteSpace(message))
+    {
+        <p class="@messageClass">@message</p>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public EventCallback<HeatingProgramResponse> OnCreated { get; set; }
+
+    private string name = string.Empty;
+    private string food = string.Empty;
+    private string timeInput = string.Empty;
+    private string powerInput = string.Empty;
+    private string heatingCharInput = string.Empty;
+    private string? instructions;
+    private string? message;
+    private string messageClass = "error-message";
+    private bool isSubmitting;
+
+    private async Task CreateAsync()
+    {
+        message = null;
+        messageClass = "error-message";
+
+        if (!int.TryParse(timeInput, out var timeInSeconds) ||
+            !int.TryParse(powerInput, out var power) ||
+            string.IsNullOrWhiteSpace(heatingCharInput))
+        {
+            message = "Informe tempo, potência e caractere válidos.";
+            return;
+        }
+
+        isSubmitting = true;
+
+        try
+        {
+            var program = await HeatingProgramService.CreateAsync(new CreateHeatingProgramRequest(
+                name,
+                food,
+                timeInSeconds,
+                power,
+                heatingCharInput.Trim()[0],
+                instructions));
+
+            Clear();
+            messageClass = "success-message";
+            message = "Programa cadastrado.";
+            await OnCreated.InvokeAsync(program);
+        }
+        catch (Exception exception)
+        {
+            message = exception.Message;
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void Clear()
+    {
+        name = string.Empty;
+        food = string.Empty;
+        timeInput = string.Empty;
+        powerInput = string.Empty;
+        heatingCharInput = string.Empty;
+        instructions = null;
+    }
+}

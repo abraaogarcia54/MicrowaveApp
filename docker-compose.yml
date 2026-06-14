@@ -1,0 +1,44 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: microwaveapp-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - microwaveapp-sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: src/MicrowaveApp.Api/Dockerfile
+    container_name: microwaveapp-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MicrowaveApp;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+    ports:
+      - "5167:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+  blazor:
+    build:
+      context: .
+      dockerfile: src/MicrowaveApp.Blazor/Dockerfile
+    container_name: microwaveapp-blazor
+    ports:
+      - "5174:80"
+    depends_on:
+      - api
+
+volumes:
+  microwaveapp-sqlserver-data:
