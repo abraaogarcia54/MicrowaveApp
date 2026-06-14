@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/MicrowaveApp.Blazor.props" />
-</Project>

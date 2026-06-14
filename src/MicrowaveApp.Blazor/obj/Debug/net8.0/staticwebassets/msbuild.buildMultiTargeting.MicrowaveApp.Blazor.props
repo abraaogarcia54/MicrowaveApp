@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/MicrowaveApp.Blazor.props" />
-</Project>
