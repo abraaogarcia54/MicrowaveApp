@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "MicrowaveApp.Blazor",
   "resources": {
-    "hash": "sha256-eoM3h85mtQxUT4t6uJGuyQb27KAAI5emCcyzTdGAgBk=",
+    "hash": "sha256-baSQUR0MEjCz9RKei83Mbgjrc1VFMehHvKM99x9/wHM=",
     "jsModuleNative": {
       "dotnet.native.8.0.22.9bwow7mtby.js": "sha256-vtotCeXt2UD6oc459laJT32vBgigZ+eLoUmdeFkvYDk="
     },
@@ -208,16 +208,16 @@
       "mscorlib.wasm": "sha256-K9gNrsN9UmPqLs6J/FrkiKpmkVGnHjjqUsc7YGvesCY=",
       "netstandard.wasm": "sha256-4emjlXLM9qW3t2tlII20SDylBgG4ueI0wy9nh5FMd8g=",
       "System.Private.CoreLib.wasm": "sha256-2DN4v7I/tabltDEPdIO8sDBB0tY8zOm+0CvHbMssXW4=",
-      "MicrowaveApp.Application.wasm": "sha256-rEChx0a93pCjIFEF7cXG9IrXiqwO5aCD3MtsiXmqN88=",
-      "MicrowaveApp.Domain.wasm": "sha256-MDyR8QmvA5fU08h4kUGhwr9nrDB435K1p81IdjA3A28=",
-      "MicrowaveApp.Shared.wasm": "sha256-+T3SYC0Y0Pc6e6FwrB3U1hw5GixaQT1jV/m0zZzxbd8=",
-      "MicrowaveApp.Blazor.wasm": "sha256-ej+QWLRw9OgfwSqwGveZGHnD9oIP12ZtxwIlCbzKN/Q="
+      "MicrowaveApp.Application.wasm": "sha256-8oSJW229M5nCCCsn6zWLMiJwoBT0ogIAYS3cD/tRMxE=",
+      "MicrowaveApp.Domain.wasm": "sha256-lD+bNU4DnB1IweCcZqmS4ytIwzjQeaNlAbB/jbB/euE=",
+      "MicrowaveApp.Shared.wasm": "sha256-+AvfGdJUQ7iYvJKKsYlaz683LoTIbuzYFXDp4NGGOj4=",
+      "MicrowaveApp.Blazor.wasm": "sha256-jmhJZ8jizdu6awdSsz88pu47oKPUxgrTpL2XMsHeAFU="
     },
     "pdb": {
-      "MicrowaveApp.Application.pdb": "sha256-D8lcrnNF3nHM5wxg4ShQVS6NbfLoAnAU0JuftQxGg9Q=",
-      "MicrowaveApp.Domain.pdb": "sha256-uUlcgttnwYm3z/fmsuyIf8SX1skysMwGCwQGp34NjQE=",
-      "MicrowaveApp.Shared.pdb": "sha256-NoenGqpTWtlF7xI7QXM761UoMDZD2ng2UbpF7UyjOck=",
-      "MicrowaveApp.Blazor.pdb": "sha256-XMITaANX6v8tygjB8+wSmMEzjjoyRnZ5EUzOGR1ZKHM="
+      "MicrowaveApp.Application.pdb": "sha256-sgUFakTM+n0YS8Dwqd56H3g94dPng8mW+Dg+M6/8qVQ=",
+      "MicrowaveApp.Domain.pdb": "sha256-M7aUwWU9nGcCscXxTXHGxCrIgrs9ekW5Y+gMLCBzBOc=",
+      "MicrowaveApp.Shared.pdb": "sha256-O99T/izalU6WPXSB4yYtDG0Qq7MmLkuES6yxd7c4nNY=",
+      "MicrowaveApp.Blazor.pdb": "sha256-BU4xExj7Z91CHBM96gLlmFI5WE/apVUvYkmy/gsUPGU="
     }
   },
   "cacheBootResources": true,

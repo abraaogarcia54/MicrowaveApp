@@ -11,5 +11,3 @@ build_property.RootNamespace = MicrowaveApp.Shared
 build_property.ProjectDir = /Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Shared/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 

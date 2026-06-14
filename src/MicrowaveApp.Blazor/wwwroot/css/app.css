@@ -155,6 +155,75 @@ code {
     gap: 1rem;
 }
 
+.program-list {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.program-list-header {
+    display: flex;
+    justify-content: space-between;
+    gap: .75rem;
+    align-items: center;
+}
+
+.program-list-header h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.clear-program-button {
+    border: 0;
+    background: transparent;
+    color: #1b6ec2;
+    font-weight: 700;
+    padding: .25rem;
+}
+
+.program-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+}
+
+.program-button {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    text-align: left;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    padding: .65rem .75rem;
+}
+
+.program-button:hover {
+    background: #f8fafc;
+}
+
+.program-button.selected {
+    border-color: #1f7a4d;
+    background: #eef8f2;
+}
+
+.program-button strong,
+.program-button span,
+.program-button small {
+    overflow-wrap: anywhere;
+}
+
+.program-button small {
+    color: #52606d;
+}
+
+.program-instructions {
+    margin: 0;
+    color: #52606d;
+    font-size: .9rem;
+    line-height: 1.35;
+}
+
 .field {
     display: flex;
     flex-direction: column;

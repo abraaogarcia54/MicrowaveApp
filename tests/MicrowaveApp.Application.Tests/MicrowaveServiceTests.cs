@@ -107,6 +107,31 @@ public class MicrowaveServiceTests
         secondTick.Status.Should().Be(HeatingStatus.Completed);
     }
 
+    [Fact]
+    public async Task StartProgramAsync_ShouldUsePresetProgramData()
+    {
+        var service = CreateService();
+
+        var session = await service.StartProgramAsync(1);
+
+        session.TotalTimeInSeconds.Should().Be(180);
+        session.Power.Should().Be(7);
+        session.HeatingChar.Should().Be('*');
+        session.IsPresentProgram.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task StartAsync_WhenPresetProgramIsHeating_ShouldRejectAddTime()
+    {
+        var service = CreateService();
+        await service.StartProgramAsync(1);
+
+        var act = () => service.StartAsync(new StartHeatingRequest());
+
+        await act.Should().ThrowAsync<Exception>()
+            .WithMessage("*pré-definidos não permitem acréscimo*");
+    }
+
     private static MicrowaveService CreateService()
     {
         return new MicrowaveService(
@@ -116,7 +141,17 @@ public class MicrowaveServiceTests
 
     private sealed class FakeHeatingProgramRepository : IHeatingProgramRepository
     {
-        private readonly List<HeatingProgram> _programs = [];
+        private readonly List<HeatingProgram> _programs =
+        [
+            HeatingProgram.CreatePreset(
+                1,
+                "Pipoca",
+                "Pipoca (de micro-ondas)",
+                180,
+                7,
+                '*',
+                "Observar estouros.")
+        ];
 
         public Task<IReadOnlyCollection<HeatingProgram>> GetAllAsync(CancellationToken cancellationToken = default)
         {

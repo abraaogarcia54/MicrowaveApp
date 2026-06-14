@@ -24,8 +24,11 @@ public static class HeatingProgramValidator
         if (string.IsNullOrWhiteSpace(food))
             throw new BusinessException("Alimento é obrigatório.", "PROGRAM_FOOD_REQUIRED");
 
-        _ = new HeatingTime(timeInSeconds);
+        _ = HeatingTime.ForProgram(timeInSeconds);
         _ = new PowerLevel(power);
-        _ = new HeatingCharacter(heatingChar);
+        var character = new HeatingCharacter(heatingChar);
+
+        if (character.Value == HeatingCharacter.Default)
+            throw new BusinessException("Programas de aquecimento não podem usar o caractere padrão.", "PROGRAM_HEATING_CHAR_CANNOT_BE_DEFAULT");
     }
 }

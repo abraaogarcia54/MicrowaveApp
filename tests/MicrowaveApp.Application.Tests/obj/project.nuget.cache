@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "s4VWrrloMTo=",
+  "dgSpecHash": "iMulBLbOz+dKG8XsFQA/OoxvPOrrdcpu18hCBjnTQsr0Ypsr8xGDLZL2IBZg1ulB2WqX7bgDbFfgkNjZ0uSPjw==",
   "success": true,
   "projectFilePath": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/tests/MicrowaveApp.Application.Tests/MicrowaveApp.Application.Tests.csproj",
   "expectedPackageFiles": [
@@ -96,9 +96,7 @@
     "/Users/abraao101icloud.com/.nuget/packages/xunit.core/2.4.2/xunit.core.2.4.2.nupkg.sha512",
     "/Users/abraao101icloud.com/.nuget/packages/xunit.extensibility.core/2.4.2/xunit.extensibility.core.2.4.2.nupkg.sha512",
     "/Users/abraao101icloud.com/.nuget/packages/xunit.extensibility.execution/2.4.2/xunit.extensibility.execution.2.4.2.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/xunit.runner.visualstudio/2.4.5/xunit.runner.visualstudio.2.4.5.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
+    "/Users/abraao101icloud.com/.nuget/packages/xunit.runner.visualstudio/2.4.5/xunit.runner.visualstudio.2.4.5.nupkg.sha512"
   ],
   "logs": []
 }

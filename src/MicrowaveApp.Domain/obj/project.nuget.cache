@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DbI0ORQMSiA=",
+  "dgSpecHash": "7A3t9gy7wRzHYCFTmGjayTnNbYaxAm20wmaJB+Cw9MsG69F0fLeOElCgMhlAOVG6BwdwtXrU/FmZEdpzkdU0kw==",
   "success": true,
   "projectFilePath": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Domain/MicrowaveApp.Domain.csproj",
-  "expectedPackageFiles": [
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

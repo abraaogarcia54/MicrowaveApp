@@ -1,0 +1,67 @@
+<section class="program-list">
+    <div class="program-list-header">
+        <h2>Programas pré-definidos</h2>
+        @if (SelectedProgram is not null)
+        {
+            <button type="button" class="clear-program-button" @onclick="ClearSelectionAsync">Limpar seleção</button>
+        }
+    </div>
+
+    <div class="program-grid">
+        @foreach (var program in Programs)
+        {
+            <button
+                type="button"
+                class="@GetProgramButtonClass(program)"
+                @onclick="() => SelectProgramAsync(program)">
+                <strong>@program.Name</strong>
+                <span>@program.Food</span>
+                <small>@FormatTime(program.TimeInSeconds) • Potência @program.Power • @program.HeatingChar</small>
+            </button>
+        }
+    </div>
+
+    @if (SelectedProgram is not null)
+    {
+        <p class="program-instructions">@SelectedProgram.Instructions</p>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<HeatingProgramResponse> Programs { get; set; } = [];
+
+    [Parameter]
+    public HeatingProgramResponse? SelectedProgram { get; set; }
+
+    [Parameter]
+    public EventCallback<HeatingProgramResponse> OnSelected { get; set; }
+
+    [Parameter]
+    public EventCallback OnCleared { get; set; }
+
+    private Task SelectProgramAsync(HeatingProgramResponse program)
+    {
+        return OnSelected.InvokeAsync(program);
+    }
+
+    private Task ClearSelectionAsync()
+    {
+        return OnCleared.InvokeAsync();
+    }
+
+    private string GetProgramButtonClass(HeatingProgramResponse program)
+    {
+        return SelectedProgram?.Id == program.Id
+            ? "program-button selected"
+            : "program-button";
+    }
+
+    private static string FormatTime(int totalSeconds)
+    {
+        var minutes = totalSeconds / 60;
+        var seconds = totalSeconds % 60;
+
+        return seconds == 0 ? $"{minutes} min" : $"{minutes}:{seconds:00}";
+    }
+}

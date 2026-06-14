@@ -13,6 +13,7 @@ public class HeatingProgram
     public char HeatingChar { get; private set; }
     public string? Instructions { get; private set; }
     public bool IsPresent { get; private set; }
+    public bool IsPreset => IsPresent;
     public DateTime CreatedAt { get; private set; }
 
     
@@ -24,7 +25,7 @@ public class HeatingProgram
         char heatingChar,
         string? instructions = null,
         bool isPresent = false)
-        : this(name, food, new HeatingTime(timeInSeconds), new PowerLevel(power), new HeatingCharacter(heatingChar), instructions, isPresent)
+        : this(name, food, HeatingTime.ForProgram(timeInSeconds), new PowerLevel(power), new HeatingCharacter(heatingChar), instructions, isPresent)
     {
     }
 
@@ -37,7 +38,7 @@ public class HeatingProgram
         string? instructions = null,
         bool isPresent = false)
     {
-        Validate(name, food);
+        Validate(name, food, heatingCharacter);
 
         Name = name.Trim();
         Food = food.Trim();
@@ -49,8 +50,32 @@ public class HeatingProgram
         CreatedAt = DateTime.UtcNow;
     }
 
+    public static HeatingProgram CreatePreset(
+        int id,
+        string name,
+        string food,
+        int timeInSeconds,
+        int power,
+        char heatingChar,
+        string instructions)
+    {
+        var program = new HeatingProgram(
+            name,
+            food,
+            HeatingTime.ForProgram(timeInSeconds),
+            new PowerLevel(power),
+            new HeatingCharacter(heatingChar),
+            instructions,
+            isPresent: true);
+
+        program.Id = id;
+        return program;
+    }
+
     public void Rename(string name)
     {
+        EnsureCanChange();
+
         if (string.IsNullOrWhiteSpace(name))
             throw new BusinessException("Nome do programa é obrigatório.", "PROGRAM_NAME_REQUIRED");
 
@@ -65,11 +90,13 @@ public class HeatingProgram
         char heatingChar,
         string? instructions = null)
     {
-        var time = new HeatingTime(timeInSeconds);
+        EnsureCanChange();
+
+        var time = HeatingTime.ForProgram(timeInSeconds);
         var powerLevel = new PowerLevel(power);
         var character = new HeatingCharacter(heatingChar);
 
-        Validate(name, food);
+        Validate(name, food, character);
 
         Name = name.Trim();
         Food = food.Trim();
@@ -79,12 +106,21 @@ public class HeatingProgram
         Instructions = string.IsNullOrWhiteSpace(instructions) ? null : instructions.Trim();
     }
 
-    private static void Validate(string name, string food)
+    private void EnsureCanChange()
+    {
+        if (IsPresent)
+            throw new BusinessException("Programas pré-definidos não podem ser alterados.", "PRESET_PROGRAM_CANNOT_CHANGE");
+    }
+
+    private static void Validate(string name, string food, HeatingCharacter heatingCharacter)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new BusinessException("Nome do programa é obrigatório.", "PROGRAM_NAME_REQUIRED");
 
         if (string.IsNullOrWhiteSpace(food))
             throw new BusinessException("Alimento é obrigatório.", "PROGRAM_FOOD_REQUIRED");
+
+        if (heatingCharacter.Value == HeatingCharacter.Default)
+            throw new BusinessException("Programas de aquecimento não podem usar o caractere padrão.", "PROGRAM_HEATING_CHAR_CANNOT_BE_DEFAULT");
     }
 }

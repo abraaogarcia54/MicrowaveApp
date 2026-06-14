@@ -21,11 +21,13 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = /Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor
 build_property._RazorSourceGeneratorDebug = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 
 
 [/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/Components/HeatingProgramList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9IZWF0aW5nUHJvZ3JhbUxpc3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/Components/MicrowavePanel.razor]

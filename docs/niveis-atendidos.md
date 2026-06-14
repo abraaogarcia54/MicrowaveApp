@@ -3,10 +3,11 @@
 ## Status atual
 
 Nível 1 concluído.
+Nível 2 implementado e pendente de validação manual.
 
 ## Foco atual
 
-Preparar implementação do Nível 2.
+Validar manualmente o Nível 2.
 
 ## Critério de conclusão do Nível 1
 
@@ -24,3 +25,6 @@ Preparar implementação do Nível 2.
 - `MicrowaveApp.Application.Tests` executado com sucesso.
 - Interface Blazor inicial criada para entrada de tempo, potência, teclado numérico, iniciar e pausar/cancelar.
 - Nível 1 testado manualmente e aprovado em 2026-06-11.
+- Nível 2 implementado com 5 programas pré-definidos, caracteres exclusivos, bloqueio de edição de dados pré-definidos e bloqueio de acréscimo de tempo em programa pré-definido.
+- `MicrowaveApp.Domain.Tests` passou com 9 testes.
+- `MicrowaveApp.Application.Tests` passou com 12 testes.

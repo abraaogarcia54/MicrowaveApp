@@ -1,4 +1,5 @@
 @inject IMicrowaveService MicrowaveService
+@inject IHeatingProgramService HeatingProgramService
 @implements IDisposable
 
 <section class="microwave-shell">
@@ -11,10 +12,23 @@
             <span>Potência</span>
             <strong>@DisplayPower</strong>
         </div>
+        @if (selectedProgram is not null)
+        {
+            <div class="display-row">
+                <span>Programa</span>
+                <strong>@selectedProgram.Name</strong>
+            </div>
+        }
         <div class="heating-output">@HeatingOutput</div>
     </div>
 
     <div class="microwave-controls">
+        <HeatingProgramList
+            Programs="programs"
+            SelectedProgram="selectedProgram"
+            OnSelected="SelectProgramAsync"
+            OnCleared="ClearProgramSelectionAsync" />
+
         <label class="field">
             <span>Tempo em segundos</span>
             <input @bind="timeInput" @onfocus="() => activeField = InputField.Time" inputmode="numeric" disabled="@IsInputLocked" />
@@ -47,16 +61,23 @@
     }
 
     private HeatingSessionResponse? currentSession;
+    private IReadOnlyCollection<HeatingProgramResponse> programs = [];
+    private HeatingProgramResponse? selectedProgram;
     private CancellationTokenSource? heatingLoopCancellation;
     private string timeInput = string.Empty;
     private string powerInput = string.Empty;
     private string? errorMessage;
     private InputField activeField = InputField.Time;
 
-    private bool IsInputLocked => currentSession?.Status is HeatingStatus.Heating or HeatingStatus.Paused;
+    private bool IsInputLocked => selectedProgram is not null || currentSession?.Status is HeatingStatus.Heating or HeatingStatus.Paused;
     private string DisplayTime => currentSession?.RemainingTimeDisplay ?? FormatInputTime();
     private string DisplayPower => currentSession?.Power.ToString() ?? (string.IsNullOrWhiteSpace(powerInput) ? "10" : powerInput);
     private string HeatingOutput => currentSession?.HeatingString ?? string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        programs = await HeatingProgramService.GetAllAsync();
+    }
 
     private async Task StartAsync()
     {
@@ -64,7 +85,11 @@
 
         try
         {
-            currentSession = await MicrowaveService.StartAsync(new StartHeatingRequest(ParseNullable(timeInput), ParseNullable(powerInput)));
+            if (selectedProgram is not null && currentSession?.Status is not HeatingStatus.Heating and not HeatingStatus.Paused)
+                currentSession = await MicrowaveService.StartProgramAsync(selectedProgram.Id);
+            else
+                currentSession = await MicrowaveService.StartAsync(new StartHeatingRequest(ParseNullable(timeInput), ParseNullable(powerInput)));
+
             SyncInputsFromSession();
             await StartHeatingLoopAsync();
         }
@@ -128,6 +153,26 @@
         await Task.CompletedTask;
     }
 
+    private Task SelectProgramAsync(HeatingProgramResponse program)
+    {
+        heatingLoopCancellation?.Cancel();
+        selectedProgram = program;
+        currentSession = null;
+        errorMessage = null;
+        timeInput = program.TimeInSeconds.ToString();
+        powerInput = program.Power.ToString();
+
+        return Task.CompletedTask;
+    }
+
+    private Task ClearProgramSelectionAsync()
+    {
+        selectedProgram = null;
+        ClearInputs();
+
+        return Task.CompletedTask;
+    }
+
     private async Task StartHeatingLoopAsync()
     {
         if (currentSession?.Status != HeatingStatus.Heating)
@@ -169,6 +214,7 @@
     {
         heatingLoopCancellation?.Cancel();
         currentSession = null;
+        selectedProgram = null;
         timeInput = string.Empty;
         powerInput = string.Empty;
         errorMessage = null;

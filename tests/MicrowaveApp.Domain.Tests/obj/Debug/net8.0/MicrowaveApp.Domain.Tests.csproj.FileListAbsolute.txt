@@ -100,3 +100,4 @@
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/tests/MicrowaveApp.Domain.Tests/obj/Debug/net8.0/MicrowaveApp.Domain.Tests.pdb
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/tests/MicrowaveApp.Domain.Tests/obj/Debug/net8.0/MicrowaveApp.Domain.Tests.genruntimeconfig.cache
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/tests/MicrowaveApp.Domain.Tests/obj/Debug/net8.0/ref/MicrowaveApp.Domain.Tests.dll
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/tests/MicrowaveApp.Domain.Tests/obj/Debug/net8.0/MicrowaveApp.Domain.Tests.sourcelink.json

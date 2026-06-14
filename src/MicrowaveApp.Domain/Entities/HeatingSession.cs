@@ -25,7 +25,7 @@ public class HeatingSession
     public DateTime? PausedAt { get; private set; }
     
     public HeatingSession(int totalTimeInSeconds, int power, char heatingChar = HeatingCharacter.Default, bool isPresentProgram = false)
-        : this(new HeatingTime(totalTimeInSeconds), new PowerLevel(power), new HeatingCharacter(heatingChar), isPresentProgram)
+        : this(HeatingTime.ForManualInput(totalTimeInSeconds), new PowerLevel(power), new HeatingCharacter(heatingChar), isPresentProgram)
     {
     }
 
@@ -56,9 +56,9 @@ public class HeatingSession
         ArgumentNullException.ThrowIfNull(program);
 
         return new HeatingSession(
-            program.TimeInSeconds,
-            program.Power,
-            program.HeatingChar,
+            HeatingTime.ForProgram(program.TimeInSeconds),
+            new PowerLevel(program.Power),
+            new HeatingCharacter(program.HeatingChar),
             program.IsPresent);
     }
 

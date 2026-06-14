@@ -1056,3 +1056,4 @@
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/obj/Debug/net8.0/compressed/wpcwp3rop8.gz
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/obj/Debug/net8.0/compressed/48jzd4hqh2.gz
 /Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/obj/Debug/net8.0/compressed/j83nhp98pl.gz
+/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/obj/Debug/net8.0/MicrowaveApp.Blazor.sourcelink.json

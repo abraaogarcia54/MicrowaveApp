@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wA29le4+UG4=",
+  "dgSpecHash": "V+DIHeX4X/nhcWM6xOpP3pHYm3ntMzZr57bdiysrqnBb+5eFAp92ItkhVXsXATb/M3DNP1KFmMQn1Y6vZku1jQ==",
   "success": true,
   "projectFilePath": "/Users/abraao101icloud.com/Downloads/MicrowaveApp/src/MicrowaveApp.Blazor/MicrowaveApp.Blazor.csproj",
   "expectedPackageFiles": [
@@ -28,12 +28,10 @@
     "/Users/abraao101icloud.com/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/abraao101icloud.com/.nuget/packages/microsoft.jsinterop/8.0.22/microsoft.jsinterop.8.0.22.nupkg.sha512",
     "/Users/abraao101icloud.com/.nuget/packages/microsoft.jsinterop.webassembly/8.0.22/microsoft.jsinterop.webassembly.8.0.22.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.net.illink.tasks/8.0.23/microsoft.net.illink.tasks.8.0.23.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.net.sdk.webassembly.pack/9.0.12/microsoft.net.sdk.webassembly.pack.9.0.12.nupkg.sha512",
+    "/Users/abraao101icloud.com/.nuget/packages/microsoft.net.illink.tasks/8.0.22/microsoft.net.illink.tasks.8.0.22.nupkg.sha512",
+    "/Users/abraao101icloud.com/.nuget/packages/microsoft.net.sdk.webassembly.pack/8.0.22/microsoft.net.sdk.webassembly.pack.8.0.22.nupkg.sha512",
     "/Users/abraao101icloud.com/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.23/microsoft.netcore.app.runtime.mono.browser-wasm.8.0.23.nupkg.sha512",
-    "/Users/abraao101icloud.com/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
+    "/Users/abraao101icloud.com/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/microsoft.netcore.app.runtime.mono.browser-wasm.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }

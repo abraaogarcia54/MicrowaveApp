@@ -13,6 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<Microwave>();
 builder.Services.AddScoped<IMicrowaveService, MicrowaveService>();
-builder.Services.AddScoped<IHeatingProgramRepository, EmptyHeatingProgramRepository>();
+builder.Services.AddScoped<IHeatingProgramService, HeatingProgramService>();
+builder.Services.AddScoped<IHeatingProgramRepository, InMemoryHeatingProgramRepository>();
 
 await builder.Build().RunAsync();
